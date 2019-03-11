@@ -1,0 +1,55 @@
+Este es un ejemplo de una simple Entidad DSL.
+
+El archivo `entity.tx` contiene una gramática del idioma.  
+Cada modelo DSL de entidad consiste en cero o más definiciones 
+de tipos simples y una o más instancias de "Entidad".  
+Cada instancia de `Entidad` contiene una o más instancias de `Propiedad`.
+
+Cada `Property` tiene un nombre que se ajusta a la regla `ID` incorporada 
+y un tipo que puede ser una referencia a `SimpleType` o `Entity` del modelo 
+o uno de los dos tipos simples incorporados que representan tipos básicos 
+(`integer` and `string`, see file `entity_test.py`).
+
+El modelo de ejemplo se da en el archivo `person.ent`.
+
+Un programa `entity_test.py` instanciará el meta-modelo desde la gramática,
+registrará los tipos simples incorporados `integer` y `string` y registrará
+la clase de usuario `SimpleType` para que los tipos incorporados puedan ser
+instanciados desde el código. Un modelo de ejemplo de persona es analizado/
+instanciado por el meta-modelo y tanto el meta-modelo como el modelo son 
+exportados a archivos.dot en la carpeta `dotexport'.
+
+Un ejemplo de generación de código se presenta en el programa `entity_codegen.py`.
+
+El código se genera en la subcarpeta `srcgen` usando el motor de plantillas
+[jinja2](http://jinja.pocoo.org/docs/dev/) y la plantilla `java.template`. 
+Para cada instancia de Entidad se genera un archivo java.
+
+**Nota:** El meta-modelo / gramática puede ser revisado/visualizado por la 
+herramienta de línea de comandos `textx` pero el modelo no puede porque depende 
+de dos tipos simples incorporados (`integer` y `string`) que deben ser proporcionados
+durante la instanciación del meta-modelo (ver el archivo `entity_test.py`).
+
+Para ejecutar el ejemplo haga lo siguiente:
+- Compruebe que textX está instalado. Vea la documentación de cómo hacerlo.
+- Instalar[Jinja2]() para la generación de código
+
+	$ pip install Jinja2
+	
+- Desde la ejecución de la carpeta de ejemplo de Entidad
+
+	$ python entity_test.py
+	
+- El comando anterior generará archivos de puntos en la carpeta `dotexport`. 
+Para convertir esos archivos a formato PNG, haga lo siguiente 
+(debe tener[GraphViz](http://graphviz.org/) instalado):
+
+	$ dot -Tpng -O dotexport/*.dot
+	
+Obtendrá un diagrama `entity_meta.dot.png` (meta-modelo de entidad) y `person.dot.png` (modelo de persona).
+
+- Ejecutar generación de código:
+
+	$ python entity_codegen.py
+	
+Esto producirá archivos html y js a `Address` y `Person` en la carpeta `srcgen` que corresponde a entidades del modelo de Persona.

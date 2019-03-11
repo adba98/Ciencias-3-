@@ -1,0 +1,34 @@
+{% for property in entity.properties %}
+	{% if property is entity %}
+require '{{property.name|capitalize}}.rb'
+	{% endif %}
+{% endfor %}	
+class {{entity.name|capitalize}}
+
+	def initialize(this{% for property in entity.properties %},{{property.name}}{% endfor %})
+	{% for property in entity.properties %}
+		{% if property is entity %}
+		{{property.name}} = {{property.name|capitalize}}()
+		{% else %}
+		@{{property.name}} = {{property.name}}
+		{% endif %}
+	{% endfor %}
+	end
+	
+	{% for property in entity.properties %}
+		{% if property is not entity %}
+	def {{property.name}}
+		return @{{property.name}}
+	end
+
+		{% endif %}
+	{% endfor %}
+	{% for property in entity.properties %}
+		{% if property is not entity %}
+    def {{property.name}}=({{property.name}})
+		@{{property.name}} = {{property.name}}
+    end
+	
+		{% endif %}
+	{% endfor %}
+end

@@ -1,0 +1,34 @@
+entity Fabrica {
+  nombre : string          
+  nit: integer
+  correo : string
+  telefono : Telefono
+  direccion: Direccion
+  empleado: Empleado
+  
+}
+
+entity Direccion {
+  calle : string
+  ciudad : string
+  pais : string
+}
+
+entity Telefono {
+  indicador : string
+  numero : string
+}
+
+entity Empleado {
+	nombre: string
+	apellido: string
+	identificacion: integer
+	area: string
+	sueldo: integer
+}
+
+entity Producto {
+	tipo: string
+	material: string
+	identificacion: integer
+}
